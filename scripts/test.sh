@@ -9,7 +9,7 @@ mkdir -p .superpowers
 PROFILE=$(mktemp -d .superpowers/chrome-profile.XXXXXX)
 python3 -m http.server "$PORT" --bind 127.0.0.1 >/dev/null 2>&1 &
 SERVER=$!
-trap 'kill $SERVER 2>/dev/null || true; rm -rf "$PROFILE"' EXIT
+trap 'kill $SERVER 2>/dev/null; wait $SERVER 2>/dev/null; rm -rf "$PROFILE"' EXIT
 for _ in $(seq 1 50); do
   curl -s -o /dev/null "http://127.0.0.1:$PORT/tests.html" && break
   sleep 0.1
