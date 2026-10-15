@@ -196,7 +196,7 @@ short "Связи нет" message.
 
 ### Midgame event
 
-Trigger: player has interviewed Lucy and holds ≥ 8 cards, or holds ≥ 12
+Trigger: player has heard Lucy's testimony (`t_cane`) and holds ≥ 8 cards, or holds ≥ 12
 cards regardless (so skipping Lucy cannot block progress). Full-screen scene:
 Lucy is found unconscious. Unlocks Lucy's room and the conservatory (Jenkins
 noticed a mud trail). Haptic "heavy" impact.

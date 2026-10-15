@@ -5,16 +5,16 @@ set -euo pipefail
 cd "$(dirname "$0")/.."
 PORT=${PORT:-8765}
 CHROME="/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
-PROFILE=".superpowers/chrome-profile"
-mkdir -p "$PROFILE"
+mkdir -p .superpowers
+PROFILE=$(mktemp -d .superpowers/chrome-profile.XXXXXX)
 python3 -m http.server "$PORT" --bind 127.0.0.1 >/dev/null 2>&1 &
 SERVER=$!
-trap 'kill $SERVER 2>/dev/null || true' EXIT
+trap 'kill $SERVER 2>/dev/null || true; rm -rf "$PROFILE"' EXIT
 for _ in $(seq 1 50); do
   curl -s -o /dev/null "http://127.0.0.1:$PORT/tests.html" && break
   sleep 0.1
 done
-DOM=$("$CHROME" --headless=new --disable-gpu --no-first-run --user-data-dir="$PROFILE" \
+DOM=$("$CHROME" --headless=new --disable-gpu --no-first-run --disk-cache-size=1 --disable-application-cache --user-data-dir="$PROFILE" \
   --virtual-time-budget=15000 --dump-dom "http://127.0.0.1:$PORT/tests.html?$(date +%s)" 2>/dev/null)
 echo "$DOM" | python3 -c '
 import sys, re, html

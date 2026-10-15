@@ -52,7 +52,8 @@ test('state: midgame triggers', () => {
   const base = createState(0);
   assertEqual(pendingEvent(withCards(base, eight, { talked: ['lucy'] })), 'midgame');
   assertEqual(pendingEvent(withCards(base, eight.slice(0, 7), { talked: ['lucy'] })), null);
-  assertEqual(pendingEvent(withCards(base, eight)), null, 'no lucy, 8 cards');
+  const eightNoCane = [...eight.slice(0, 7), 'handbook'];
+  assertEqual(pendingEvent(withCards(base, eightNoCane)), null, 'no lucy testimony, 8 cards');
   const twelve = [...eight.slice(0, 6), 'burntletter', 'handbook', 'oldwill', 'scorecard', 'cigarbox', 'iou'];
   assertEqual(pendingEvent(withCards(base, twelve)), 'midgame', 'no lucy, 12 cards');
   const after = applyEvent(withCards(base, eight, { talked: ['lucy'] }), 'midgame');
@@ -81,4 +82,11 @@ test('state: immutability', () => {
   findClue(s, 'glass');
   applyEvent(s, 'midgame');
   assertEqual(JSON.stringify(s), before);
+});
+
+test('state: midgame waits until Lucy has told her story', () => {
+  const eight = ['body', 'glass', 'key', 'diary', 'safe', 'emptyspot', 't_habit', 'handbook'];
+  const s = withCards(createState(0), eight, { talked: ['lucy'] });
+  assertEqual(pendingEvent(s), null, 'met Lucy but no testimony yet');
+  assertEqual(pendingEvent(withCards(s, [...eight.slice(0, 7), 't_cane'])), 'midgame');
 });

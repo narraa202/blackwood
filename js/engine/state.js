@@ -78,7 +78,7 @@ export function findClue(state, clueId) {
 export function pendingEvent(state) {
   if (state.events.includes('midgame')) return null;
   const n = state.cards.length;
-  if ((state.talked.includes('lucy') && n >= 8) || n >= 12) return 'midgame';
+  if ((hasCard(state, 't_cane') && n >= 8) || n >= 12) return 'midgame';
   return null;
 }
 
