@@ -6,12 +6,7 @@ import { initTelegram } from './telegram.js';
 import { resumeSound } from './sound.js';
 import { showCard, toast } from './ui/modal.js';
 import { updateRep } from './ui/hud.js';
-import * as cover from './ui/cover.js';
-import * as prologue from './ui/prologue.js';
-import * as map from './ui/map.js';
-
-const screens = { cover, prologue, map };
-const lazy = { room: './ui/room.js', talk: './ui/talk.js', board: './ui/board.js', event: './ui/event.js', accuse: './ui/accuse.js', result: './ui/result.js' };
+import { SCREENS as screens } from './ui/screens.js';
 
 const root = document.getElementById('app');
 let cleanup = null;
@@ -34,20 +29,11 @@ const ctx = {
     if (prev) updateRep(prev.reputation, next.reputation);
   },
 
-  async go(screen, params = {}) {
+  go(screen, params = {}) {
     if (!ctx.state && screen !== 'cover') screen = 'cover';
     if (ctx.state && ctx.state.finished && !['result', 'cover'].includes(screen)) screen = 'result';
     if (['map', 'room', 'talk', 'board'].includes(screen) && ctx.state && pendingEvent(ctx.state)) {
       screen = 'event';
-    }
-    if (!screens[screen] && lazy[screen]) {
-      try {
-        screens[screen] = await import(lazy[screen]);
-      } catch (err) {
-        console.error(err);
-        toast('Этот раздел ещё в работе');
-        return;
-      }
     }
     if (typeof cleanup === 'function') cleanup();
     cleanup = null;

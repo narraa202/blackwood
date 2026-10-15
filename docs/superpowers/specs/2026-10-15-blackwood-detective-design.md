@@ -138,7 +138,7 @@ the rooms). Оранжерея unlocks after the midgame event (mud trail).
 | safe | study | Открытый сейф, пустой футляр от колье |
 | diary | study | Дневник: «лампы в жёлтых ореолах... сердце скачет... Прайс должен узнать о клинике» |
 | key | study | Ключ в кармане лорда — заперся сам |
-| handbook | library | Медицинский справочник, закладка на «Наперстянка: жёлтое зрение, ореолы, аритмия, смерть через 1–3 ч» |
+| handbook | library | Медицинский справочник, закладка на «Наперстянка: жёлтое зрение, ореолы, аритмия, обморок через полчаса» |
 | oldwill | library | Копия завещания: £20 000 клинике Финча, остальное Артуру и Вивиан |
 | scorecard | billiards | Бильярдная записка: партия Торн–Финч прерывается в 22:25, продолжается в 22:45 |
 | cigarbox | billiards | Полная коробка сигар на столе |
@@ -188,8 +188,8 @@ short "Связи нет" message.
 - "Предъявить улику": presenting the right card triggers a reveal (new
   testimony, clue unlock, or confession of a secret). The wrong card costs
   reputation and one point of that character's patience (3). At 0 patience
-  the character refuses to talk until the player makes any new deduction
-  (prevents brute force, no soft-lock).
+  the character refuses to talk until the player gains any new card
+  (prevents brute force, no soft-lock, no permanently lost content).
 - Finch is cooperative, always nudges toward Arthur; presenting `framed`,
   `falsealibi` or `purchase` makes him evasive but he never confesses before
   the accusation.

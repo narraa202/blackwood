@@ -69,7 +69,7 @@ test('scoring: finish sets result and end time', () => {
 test('hints: current hint follows the critical path', () => {
   const s = createState(0);
   assertEqual(currentHint(s), CASE.hints[0].text);
-  assertEqual(currentHint({ ...s, cards: ['t_habit'] }), CASE.hints[1].text);
+  assertEqual(currentHint({ ...s, cards: [CASE.hints[0].until] }), CASE.hints[1].text);
   const all = CASE.hints.map((h) => h.until);
   assertEqual(currentHint({ ...s, cards: all }), null);
 });
@@ -79,7 +79,7 @@ test('hints: useHint costs 15 and stops at 3', () => {
   for (let i = 0; i < 3; i++) {
     const r = useHint(s);
     assert(r.text, `hint ${i}`);
-    s = r.state;
+    s = { ...r.state, cards: [...r.state.cards, CASE.hints[i].until] };
   }
   assertEqual(s.hintsUsed, 3);
   assertEqual(s.reputation, 55);

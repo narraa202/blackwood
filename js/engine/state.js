@@ -28,6 +28,7 @@ export function createState(now) {
     lockedAt: {},
     reputation: 100,
     hintsUsed: 0,
+    lastHint: null,
     events: [],
     finished: null,
   };
@@ -98,15 +99,21 @@ export function availableCharacters(state) {
     .map((c) => c.id);
 }
 
+const nextHint = (state) => CASE.hints.find((x) => !hasCard(state, x.until)) || null;
+
 export function currentHint(state) {
-  const h = CASE.hints.find((x) => !hasCard(state, x.until));
+  const h = nextHint(state);
   return h ? h.text : null;
 }
 
+// Re-reading the hint already paid for is free.
 export function useHint(state) {
-  const text = currentHint(state);
-  if (!text || state.hintsUsed >= MAX_HINTS) return { state, text: null };
+  const h = nextHint(state);
+  if (!h) return { state, text: null };
+  if (state.lastHint === h.until) return { state, text: h.text };
+  if (state.hintsUsed >= MAX_HINTS) return { state, text: null };
   const next = changeReputation(state, -HINT_COST);
   next.hintsUsed += 1;
-  return { state: next, text };
+  next.lastHint = h.until;
+  return { state: next, text: h.text };
 }

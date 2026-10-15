@@ -43,7 +43,6 @@ button { font: inherit; color: inherit; }
 #app {
   position: relative;
   height: var(--app-h);
-  min-height: 100dvh;
   max-width: 520px;
   margin: 0 auto;
   overflow: hidden;

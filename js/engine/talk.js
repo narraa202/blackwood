@@ -2,7 +2,7 @@
 
 import { CASE } from '../data/case.js';
 import {
-  clone, hasCard, addCards, changeReputation, deductionCount, availableCharacters, MAX_PATIENCE,
+  clone, hasCard, addCards, changeReputation, availableCharacters, MAX_PATIENCE,
 } from './state.js';
 
 export const WRONG_PRESENT_COST = 10;
@@ -10,8 +10,9 @@ export const WRONG_PRESENT_COST = 10;
 const charById = new Map(CASE.characters.map((c) => [c.id, c]));
 export const getCharacter = (id) => charById.get(id) || null;
 
+// A sulking character talks again once the player has found anything new.
 const isLocked = (state, charId) =>
-  state.lockedAt[charId] !== undefined && deductionCount(state) <= state.lockedAt[charId];
+  state.lockedAt[charId] !== undefined && state.cards.length <= state.lockedAt[charId];
 
 export function canTalk(state, charId) {
   return availableCharacters(state).includes(charId) && !isLocked(state, charId);
@@ -71,6 +72,6 @@ export function present(state, charId, cardId) {
   }
   next = changeReputation(next, -WRONG_PRESENT_COST);
   next.patience[charId] = Math.max(0, next.patience[charId] - 1);
-  if (next.patience[charId] === 0) next.lockedAt[charId] = deductionCount(next);
+  if (next.patience[charId] === 0) next.lockedAt[charId] = next.cards.length;
   return { state: next, outcome: 'wrong', text: ch.wrong, gained: [] };
 }
