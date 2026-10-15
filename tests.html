@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>tests…</title>
+  <style>
+    body { font: 14px/1.5 ui-monospace, Menlo, monospace; margin: 16px; background: #fff; color: #111; }
+    .ok { color: #1a7f37; } .bad { color: #c62828; font-weight: 600; }
+    ul { list-style: none; padding: 0; }
+  </style>
+</head>
+<body>
+  <h1 id="summary">running…</h1>
+  <ul id="results"></ul>
+  <script type="module">
+    import { run, reportLoadError } from './tests/runner.js';
+    // Add every test file here.
+    const files = [
+      './tests/smoke.test.js',
+    ];
+    for (const f of files) {
+      try { await import(f); } catch (err) { reportLoadError(f, err); }
+    }
+    run();
+  </script>
+</body>
+</html>
