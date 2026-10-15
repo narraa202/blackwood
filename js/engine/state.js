@@ -94,3 +94,16 @@ export function availableCharacters(state) {
     .filter((c) => !c.goneAfter || !state.events.includes(c.goneAfter))
     .map((c) => c.id);
 }
+
+export function currentHint(state) {
+  const h = CASE.hints.find((x) => !hasCard(state, x.until));
+  return h ? h.text : null;
+}
+
+export function useHint(state) {
+  const text = currentHint(state);
+  if (!text || state.hintsUsed >= MAX_HINTS) return { state, text: null };
+  const next = changeReputation(state, -HINT_COST);
+  next.hintsUsed += 1;
+  return { state: next, text };
+}
