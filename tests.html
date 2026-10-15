@@ -21,6 +21,7 @@
       './tests/case.test.js',
       './tests/state.test.js',
       './tests/board.test.js',
+      './tests/talk.test.js',
     ];
     for (const f of files) {
       try { await import(f); } catch (err) { reportLoadError(f, err); }
