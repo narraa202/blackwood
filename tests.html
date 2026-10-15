@@ -18,6 +18,7 @@
     // Add every test file here.
     const files = [
       './tests/smoke.test.js',
+      './tests/case.test.js',
     ];
     for (const f of files) {
       try { await import(f); } catch (err) { reportLoadError(f, err); }
