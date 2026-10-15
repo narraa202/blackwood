@@ -182,7 +182,9 @@ button { font: inherit; color: inherit; }
 .navbtn .badge {
   position: absolute;
   top: 0;
-  right: calc(50% - 22px);
+  left: calc(50% + 4px);
+  right: auto;
+  width: max-content;
   min-width: 18px;
   height: 18px;
   padding: 0 5px;
@@ -516,6 +518,11 @@ button { font: inherit; color: inherit; }
 @media (max-height: 600px) {
   .cover-title { font-size: 30px; }
   .person .ph { width: 54px; height: 54px; }
+  .talk-portrait { width: 96px; height: 96px; }
+}
+
+@media (max-width: 360px) {
+  .rep > span:first-child { display: none; }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -723,7 +730,7 @@ button { font: inherit; color: inherit; }
 
 /* ---------- Accusation ---------- */
 
-.accuse { display: flex; flex-direction: column; gap: 16px; }
+.accuse-screen { display: flex; flex-direction: column; gap: 16px; }
 .accuse-step { display: flex; flex-direction: column; gap: 14px; animation: screen-in 0.3s ease-out both; }
 .question { margin: 0; font-family: var(--font-title); font-weight: 500; font-size: 24px; text-align: center; color: var(--ivory); }
 .options { display: flex; flex-direction: column; gap: 8px; }

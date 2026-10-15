@@ -18,7 +18,7 @@ export function render(root, ctx) {
   el.className = 'screen';
   el.appendChild(topbar(ctx, { title: 'Обвинение', back: 'map' }));
   const body = document.createElement('div');
-  body.className = 'scroll accuse';
+  body.className = 'scroll accuse-screen';
   el.appendChild(body);
   root.appendChild(el);
 

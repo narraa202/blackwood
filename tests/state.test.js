@@ -48,15 +48,15 @@ test('state: suitcase requires theft', () => {
 });
 
 test('state: midgame triggers', () => {
-  const eight = ['body', 'glass', 'key', 'diary', 'safe', 'emptyspot', 't_habit', 't_cane'];
+  const clues = ['body', 'glass', 'key', 'diary', 'safe', 'emptyspot', 'burntletter', 'handbook', 'oldwill', 'scorecard', 'cigarbox', 'iou', 'lovenote'];
   const base = createState(0);
-  assertEqual(pendingEvent(withCards(base, eight, { talked: ['lucy'] })), 'midgame');
-  assertEqual(pendingEvent(withCards(base, eight.slice(0, 7), { talked: ['lucy'] })), null);
-  const eightNoCane = [...eight.slice(0, 7), 'handbook'];
-  assertEqual(pendingEvent(withCards(base, eightNoCane)), null, 'no lucy testimony, 8 cards');
-  const twelve = [...eight.slice(0, 6), 'burntletter', 'handbook', 'oldwill', 'scorecard', 'cigarbox', 'iou'];
-  assertEqual(pendingEvent(withCards(base, twelve)), 'midgame', 'no lucy, 12 cards');
-  const after = applyEvent(withCards(base, eight, { talked: ['lucy'] }), 'midgame');
+  const withLucy = (n) => withCards(base, [...clues.slice(0, n - 1), 't_cane']);
+  assertEqual(pendingEvent(withLucy(14)), 'midgame', 'Lucy + 14 cards');
+  assertEqual(pendingEvent(withLucy(13)), null, 'Lucy + 13 cards');
+  const seventeen = [...clues, 't_habit', 't_quarrel', 't_whisky', 'poison'];
+  assertEqual(pendingEvent(withCards(base, seventeen)), null, 'no Lucy, 17 cards');
+  assertEqual(pendingEvent(withCards(base, [...seventeen, 't_alibi'])), 'midgame', 'no Lucy, 18 cards');
+  const after = applyEvent(withLucy(14), 'midgame');
   assertEqual(pendingEvent(after), null);
   assert(unlockedRooms(after).includes('lucy') && unlockedRooms(after).includes('conservatory'));
   assert(!availableCharacters(after).includes('lucy'));
@@ -85,8 +85,8 @@ test('state: immutability', () => {
 });
 
 test('state: midgame waits until Lucy has told her story', () => {
-  const eight = ['body', 'glass', 'key', 'diary', 'safe', 'emptyspot', 't_habit', 'handbook'];
-  const s = withCards(createState(0), eight, { talked: ['lucy'] });
+  const cards = ['body', 'glass', 'key', 'diary', 'safe', 'emptyspot', 'burntletter', 'handbook', 'oldwill', 'scorecard', 'cigarbox', 'iou', 'lovenote', 't_habit'];
+  const s = withCards(createState(0), cards, { talked: ['lucy'] });
   assertEqual(pendingEvent(s), null, 'met Lucy but no testimony yet');
-  assertEqual(pendingEvent(withCards(s, [...eight.slice(0, 7), 't_cane'])), 'midgame');
+  assertEqual(pendingEvent(withCards(s, [...cards.slice(0, 13), 't_cane'])), 'midgame');
 });

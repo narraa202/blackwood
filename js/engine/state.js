@@ -6,6 +6,9 @@ import { CASE } from '../data/case.js';
 export const MAX_PATIENCE = 3;
 export const MAX_HINTS = 3;
 export const HINT_COST = 15;
+// Midgame fires around the middle of a ~20 minute session.
+export const MIDGAME_WITH_LUCY = 14;
+export const MIDGAME_ANY = 18;
 
 const clueById = new Map(CASE.clues.map((c) => [c.id, c]));
 const deductionIds = new Set(CASE.deductions.map((d) => d.id));
@@ -78,7 +81,7 @@ export function findClue(state, clueId) {
 export function pendingEvent(state) {
   if (state.events.includes('midgame')) return null;
   const n = state.cards.length;
-  if ((hasCard(state, 't_cane') && n >= 8) || n >= 12) return 'midgame';
+  if ((hasCard(state, 't_cane') && n >= MIDGAME_WITH_LUCY) || n >= MIDGAME_ANY) return 'midgame';
   return null;
 }
 
