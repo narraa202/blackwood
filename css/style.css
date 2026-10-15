@@ -519,3 +519,19 @@ button { font: inherit; color: inherit; }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
 }
+
+/* ---------- Room ---------- */
+
+.room-body { padding: 0 0 16px; }
+.scene { position: relative; }
+.scene svg { display: block; width: 100%; height: auto; max-height: calc(var(--app-h) - 170px); margin: 0 auto; }
+.hotspot { cursor: pointer; }
+.hotspot .spark { opacity: 0; animation: twinkle 3.2s ease-in-out infinite; transform-box: fill-box; }
+.hotspot:nth-of-type(2n) .spark { animation-delay: -1.1s; }
+.hotspot:nth-of-type(3n) .spark { animation-delay: -2.2s; }
+@keyframes twinkle { 0%, 70%, 100% { opacity: 0; } 82% { opacity: 0.85; } }
+.hotspot .found-mark { display: none; }
+.hotspot.found .spark { display: none; }
+.hotspot.found .found-mark { display: inline; }
+.hotspot:active > :not(.hit) { filter: brightness(1.4); }
+.room-caption { margin: 10px 16px 0; text-align: center; font-size: 14px; color: var(--muted); font-style: italic; }

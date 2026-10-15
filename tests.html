@@ -25,6 +25,7 @@
       './tests/scoring.test.js',
       './tests/storage.test.js',
       './tests/solver.test.js',
+      './tests/art.test.js',
     ];
     for (const f of files) {
       try { await import(f); } catch (err) { reportLoadError(f, err); }
