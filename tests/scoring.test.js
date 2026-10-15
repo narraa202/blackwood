@@ -94,3 +94,12 @@ test('hints: no hint left to give costs nothing', () => {
   assertEqual(r.text, null);
   assertEqual(r.state.hintsUsed, 0);
 });
+
+test('scoring: escaped murderer caps the rank at Сержант', () => {
+  const s = { ...createState(0), cards: allClues };
+  const r = computeResult(s, { ...PERFECT, proof: 'burntletter' }, 0);
+  assertEqual(r.count, 4);
+  assertEqual(r.rank, 'Сержант');
+  assertEqual(rankFor(90, 4, 0, 100, false), 'Сержант');
+  assertEqual(rankFor(30, 4, 0, 100, false), 'Констебль');
+});

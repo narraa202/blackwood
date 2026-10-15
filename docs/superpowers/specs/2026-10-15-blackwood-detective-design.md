@@ -226,6 +226,8 @@ dramatic monologue); wrong → "Убийца уходит" ending with the truth
 - Ranks: Констебль < 40 ≤ Сержант < 60 ≤ Инспектор < 80 ≤ Старший
   инспектор; Великий сыщик requires all 5 correct, ≤ 1 hint, reputation
   ≥ 70.
+- If the murderer is not named with an accepted proof, the rank is capped at
+  Сержант and the finale says the killer escaped.
 - Hints: 3 available; each points to the next unmade useful step.
 
 ## 4. Screens

@@ -17,7 +17,9 @@ export function evaluate(answers) {
   return { correct, count: Object.values(correct).filter(Boolean).length };
 }
 
-export function rankFor(score, count, hintsUsed, reputation) {
+// A detective who let the murderer go can't rank above Сержант.
+export function rankFor(score, count, hintsUsed, reputation, caught = true) {
+  if (!caught) return score >= 40 ? 'Сержант' : 'Констебль';
   if (count === 5 && hintsUsed <= 1 && reputation >= 70) return 'Великий сыщик';
   if (score >= 80) return 'Старший инспектор';
   if (score >= 60) return 'Инспектор';
@@ -33,7 +35,7 @@ export function computeResult(state, answers, now) {
   const score = Math.min(100, raw);
   return {
     score,
-    rank: rankFor(score, count, state.hintsUsed, state.reputation),
+    rank: rankFor(score, count, state.hintsUsed, state.reputation, correct.who),
     correct,
     count,
     timeMs: now - state.startedAt,

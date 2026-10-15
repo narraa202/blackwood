@@ -7,7 +7,7 @@ PORT=${PORT:-8765}
 CHROME="/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
 mkdir -p .superpowers
 PROFILE=$(mktemp -d .superpowers/chrome-profile.XXXXXX)
-python3 -m http.server "$PORT" --bind 127.0.0.1 >/dev/null 2>&1 &
+python3 scripts/serve.py "$PORT" >/dev/null 2>&1 &
 SERVER=$!
 trap 'kill $SERVER 2>/dev/null; wait $SERVER 2>/dev/null || true; rm -rf "$PROFILE"' EXIT
 for _ in $(seq 1 50); do
